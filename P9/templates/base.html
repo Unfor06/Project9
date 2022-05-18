@@ -12,7 +12,7 @@
     <header class="row">
         <div class="col-md-12">
 
-<h1>LitReview</h1>
+<a href="{% url 'accueil' 'tata'%}"><h1>LitReview</h1></a>
 
         </div>
 
@@ -29,12 +29,12 @@
         </div>
     </nav>
     <main class="row">
-        <div class="col-md-2"><h2>Colonne de gauche</h2></div>
+        <div class="col-md-2"><h2>Cg</h2></div>
         <div class="col-md-8">
             <div class="container">{% block content %}
                 {% endblock %}</div>
         </div>
-        <div class="col-md-2"><h2>Colonne de droite</h2></div>
+        <div class="col-md-2"><h2>Cd</h2></div>
     </main>
     <footer>Coucou</footer>
 </div>
