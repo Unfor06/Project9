@@ -9,8 +9,8 @@
 <div class="row">
     {% endif %}
 <div class="col-md-4">
-<h2>{{ product.name }}</h2>
-<img src="{{ ticket.thumbnail.url }}" alt="{{ ticket.name }}" style="max-width: 250px";>
+<h2>{{ ticket.title }}</h2>
+<img src="{{ ticket.thumbnail.url }}" style="max-width: 250px";>
 <a href="{{ticket.get_absolute_url}}">Voir l'article</a>
 </div>
 {% if forloop.counter|divisibleby:3 %}
