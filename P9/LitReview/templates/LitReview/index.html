@@ -10,7 +10,7 @@
     {% endif %}
 <div class="col-md-4">
 <h2>{{ ticket.title }}</h2>
-<img src="{{ ticket.thumbnail.url }}" style="max-width: 250px";>
+<img src="{{ ticket.image.url }}" style="max-width: 250px";>
 <a href="{{ticket.get_absolute_url}}">Voir l'article</a>
 </div>
 {% if forloop.counter|divisibleby:3 %}
