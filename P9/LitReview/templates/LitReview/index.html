@@ -2,7 +2,9 @@
 {% block content %}
 
 <h1> LitReview </h1>
-
+<a href="{% url 'creat_ticket' %}">Créer un ticket</a>
+<a href="">Demander une critique</a>
+<a href="">Crée une critique</a>
 {{ valeur }}
 {% for ticket in tickets %}
 {% if forloop.first %}
