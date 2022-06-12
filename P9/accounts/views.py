@@ -14,7 +14,7 @@ def signup(request):
                 form.add_error('captcha', 'Captcha invalide')
             else:
                 form.save()
-                return redirect('index')
+                return redirect('/')
     else:
         form = CreationDeCompte()
     return render(request, 'accounts/signup.html', context={'form': form})

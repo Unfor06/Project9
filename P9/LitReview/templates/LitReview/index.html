@@ -2,26 +2,35 @@
 {% block content %}
 
 <h1> LitReview </h1>
-<a href="{% url 'creat_ticket' %}">Créer un ticket</a>
-<a href="">Demander une critique</a>
-<a href="">Crée une critique</a>
+<a href="{% url 'creat_ticket' %}">Demander une critique</a>
+<a href=" {% url 'create_review' %}">Crée une critique</a>
 {{ valeur }}
 {% for ticket in tickets %}
-{% if forloop.first %}
-<div class="row">
+    {% if forloop.first %}
+    <div class="row">
+        {% endif %}
+    <div class="col-md-12">
+    {% if request.user == ticket.user %}
+    <p>Vous avez publié une critique</p>
+    {% else %}
+    {{ticket.user}} a demandé une critique
+        {% endif %}
+        <h2>{{ ticket.title }}</h2>
+    <p>{{ ticket.user }}</p>
+    <p>{{ ticket.time_created }}</p>
+    <h3>{{ ticket.review.all.0.headline }}</h3>
+    <h3>{{ ticket.review.all.0.rating }}</h3>
+    <p>{{ ticket.review.all.0.body }}</p>
+        <img src="{{ ticket.image.url }}">
+    <a href="{{ticket.get_absolute_url}}">Voir l'article</a>
+    </div>
+    {% if forloop.counter|divisibleby:1 %}
+    </div>
+    <div class="row">
+     {% endif %}
+        {% if forloop.last %}
+    </div>
     {% endif %}
-<div class="col-md-4">
-<h2>{{ ticket.title }}</h2>
-<img src="{{ ticket.image.url }}" style="max-width: 250px";>
-<a href="{{ticket.get_absolute_url}}">Voir l'article</a>
-</div>
-{% if forloop.counter|divisibleby:3 %}
-</div>
-<div class="row">
- {% endif %}
-    {% if forloop.last %}
-</div>
-{% endif %}
 {% endfor %}
 
 
