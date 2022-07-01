@@ -6,6 +6,9 @@ from .form import TicketForm, ReviewForm
 from .models import Ticket, Review
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView
+from itertools import chain
+from django.db.models import CharField, Value
+
 
 def index(request, valeur="bienvenue sur LitReview"):
     return render(request=request,template_name="LitReview/index.html", context={'valeur':valeur,'tickets':Ticket.objects.all()})
@@ -56,3 +59,23 @@ def create_review(request):
         ticket_form = TicketForm()
         review_form = ReviewForm()
         return render(request, 'LitReview/ticket_review.html', {"ticket_form":ticket_form, "review_form":review_form} )
+
+class PostListView(ListView):
+    template_name = 'LitReview/flux.html'
+    model = Ticket
+    paginate_by = 100
+
+    def get_queryset(self):
+        reviews = Review.objects.filter(user=self.request.user)
+        reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
+
+        tickets = Ticket.objects.filter(user=self.request.user)
+        tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
+
+        return sorted(
+            chain(reviews, tickets),
+            key=lambda post: post.time_created,
+            reverse=True
+        )
+
+
