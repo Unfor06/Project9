@@ -1,0 +1,35 @@
+<div class="card card-body">
+    <div class="card">
+        <div class="card-body">
+            <a>Écrit par : {{ request.user.username }} </a>
+
+        </div>
+    </div>
+
+    <h5 class="card-title" style="margin-top: 20px;">Demande de résumer : {{ post.title }}</h5>
+
+
+    <img class="bd-placeholder-img card-img-bottom rounded" src="{{post.image.url}}" width="100%" height="400" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect></img>
+    <p class="card-text"><small class="text-muted">posté le : {{ post.time_created }}</small></p>
+
+    {% for review in post.reviews.all %}
+
+    {% include 'LitReview/review_snippet.html' %}
+    {% endfor %}
+    <ul class="nav nav-pills" style="margin-top: 10px;">
+        {% if post.reviews.count == 0 %}
+        <li class="nav-item">
+          <a class="nav-link aria-current="page" href="{# {% url '' post.id %} #}">Répondre à ce ticket</a>
+
+        </li>
+        {% endif %}
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#">Aimer</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#">Partager</a>
+        </li>
+
+    </ul>
+
+</div>

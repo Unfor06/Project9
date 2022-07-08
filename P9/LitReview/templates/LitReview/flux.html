@@ -8,9 +8,9 @@
     <div class="row">
         {% endif %}
     {% if post.content_type == 'TICKET' %}
-        {% include 'ticket_snippet.html' %}
+        {% include 'LitReview/ticket_snippet.html' %}
     {% elif post.content_type == 'REVIEW' %}
-        {% include 'review_snippet.html' %}
+        {% include 'LitReview/review_snippet.html' %}
         {% endif %}
         <div class="col-md-12">
     {% if request.user == ticket.user %}
