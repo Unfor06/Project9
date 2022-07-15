@@ -13,6 +13,29 @@ from django.db.models import CharField, Value
 def index(request, valeur="bienvenue sur LitReview"):
     return render(request=request,template_name="LitReview/index.html", context={'valeur':valeur,'tickets':Ticket.objects.all()})
 
+
+def get_users_viewable_tickets(user):
+    followed_users = UserFollows.objects.filter(user=user).values_list('followed_user', flat=True)
+    return Ticket.objects.filter(user__in=followed_users)
+
+def get_users_viewable_reviews(user):
+    pass
+
+
+def feed(request):
+    reviews = get_users_viewable_reviews(request.user)
+    reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
+
+    tickets = get_users_viewable_tickets(request.user)
+    tickets = tickets.annotate(content_type=Value('TICKET', CharField()))
+
+    posts = sorted(
+        chain(reviews, tickets),
+        key=lambda post: post.time_created,
+        reverse=True
+    )
+    return render(request, 'feed.html', context={'posts': posts})
+
 class TicketDetailView(LoginRequiredMixin, DetailView):
     model = Ticket
     extra_context = {'reviews': Review.objects.all()}
@@ -83,7 +106,7 @@ class FollowView(LoginRequiredMixin, CreateView):
     model = UserFollows
     template_name = 'LitReview/follow.html'
     form_class = FollowForm
-    success_url = "/LitReview/follow/"
+    success_url = "/follow/"
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -110,7 +133,7 @@ class FollowView(LoginRequiredMixin, CreateView):
 
 class FollowDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = UserFollows
-    success_url = "/LitReview/follow/"
+    success_url = "/follow/"
 
     def test_func(self):
         post = self.get_object()
