@@ -1,11 +1,11 @@
 import flux as flux
 from django.views.generic import (DetailView)
 from django.shortcuts import render, redirect
-from django.contrib.auth.mixins import LoginRequiredMixin
-from .form import TicketForm, ReviewForm
-from .models import Ticket, Review
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .form import TicketForm, ReviewForm, FollowForm
+from .models import Ticket, Review, UserFollows
 from django.views.generic.list import ListView
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, CreateView, DeleteView
 from itertools import chain
 from django.db.models import CharField, Value
 
@@ -78,4 +78,43 @@ class PostListView(ListView):
             reverse=True
         )
 
+
+class FollowView(LoginRequiredMixin, CreateView):
+    model = UserFollows
+    template_name = 'reviews/follow.html'
+    form_class = FollowForm
+    success_url = "/reviews/follow/"
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_form_kwargs(self, *args, **kwargs):
+        kwargs = super(FollowView, self).get_form_kwargs()
+        kwargs['username'] = self.request.user.username
+        kwargs['following'] = self.request.user.following.all()
+        kwargs['followed_by'] = self.request.user.followed_by.all()
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        following = self.request.user.following.all()
+        followed_by = self.request.user.followed_by.all()
+        context = super(FollowView, self).get_context_data(**kwargs)
+        context.update({
+            'title': 'abonnements',
+            'following': following,
+            'followed_by': followed_by,
+        })
+        return context
+
+
+class FollowDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = UserFollows
+    success_url = "/reviews/follow/"
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.user:
+            return True
+        return False
 

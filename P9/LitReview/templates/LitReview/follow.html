@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div id="suivre-nouvel-utilisateur">
+    <h2>Suivre d'autres utilisateurs</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Qui voulez vous suivre ?</legend>
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button type="submit">Confirmer</button>
+        </div>
+    </form>
+</div>
+
+<div id="utilisateurs-suivis">
+    <h2>Abonnements</h2>
+    {% for f in following %}
+    <article class="media content-section">
+        <h4 class="p-0 col-8">{{f}}</h4>
+        <a class="col-4 btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'unfollow-delete' f.id %}">Ne plus suivre</a>
+    </article>
+    {% endfor %}
+</div>
+
+<div id="utilisateurs-abonnés">
+    <h2>Abonnés</h2>
+    {% for f in followed_by %}
+    <article class="media content-section">
+        <h4>{{f}}</h4>
+    </article>
+    {% endfor %}
+</div>
+{% endblock content %}

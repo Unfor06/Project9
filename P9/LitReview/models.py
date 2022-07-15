@@ -34,5 +34,11 @@ class UserFollows(models.Model):
     class Meta:
         unique_together = ('user', 'followed_user', )
 
+    def __str__(self):
+        return f"{self.user} suit {self.followed_user}"
+
+    def get_absolute_url(self):
+        return reverse('reviews-MesPosts')
+
 
 
