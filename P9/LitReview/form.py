@@ -1,6 +1,6 @@
 from django import forms
 from .models import Ticket, Review, UserFollows
-from ..accounts.views import User
+from django.contrib.auth.models import User
 
 
 class TicketForm(forms.ModelForm):

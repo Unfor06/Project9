@@ -81,9 +81,9 @@ class PostListView(ListView):
 
 class FollowView(LoginRequiredMixin, CreateView):
     model = UserFollows
-    template_name = 'reviews/follow.html'
+    template_name = 'LitReview/follow.html'
     form_class = FollowForm
-    success_url = "/reviews/follow/"
+    success_url = "/LitReview/follow/"
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -110,7 +110,7 @@ class FollowView(LoginRequiredMixin, CreateView):
 
 class FollowDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = UserFollows
-    success_url = "/reviews/follow/"
+    success_url = "/LitReview/follow/"
 
     def test_func(self):
         post = self.get_object()

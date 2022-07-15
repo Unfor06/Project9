@@ -1,7 +1,7 @@
 from django.urls import include
 from django.contrib import admin
 from django.urls import path
-from .views import TicketDetailView, TicketFormView, create_review, PostListView
+from .views import TicketDetailView, TicketFormView, create_review, PostListView, FollowView, FollowDeleteView
 from .views import index
 
 urlpatterns = [
@@ -11,4 +11,6 @@ urlpatterns = [
     path('createticket/', TicketFormView.as_view(), name='creat_ticket'),
     path('createreview/', create_review, name='create_review'),
     path('flux/', PostListView.as_view(), name='post'),
+    path("follow/", FollowView.as_view(), name="abonnements"),
+    path("unfollow/<pk>/delete/", FollowDeleteView.as_view(), name="unfollow-delete"),
     ]
