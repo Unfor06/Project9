@@ -8,8 +8,9 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import FormView, CreateView, DeleteView
 from itertools import chain
 from django.db.models import CharField, Value
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def index(request, valeur="bienvenue sur LitReview"):
     return render(request=request,template_name="LitReview/index.html", context={'valeur':valeur,'tickets':Ticket.objects.all()})
 
@@ -19,7 +20,8 @@ def get_users_viewable_tickets(user):
     return Ticket.objects.filter(user__in=followed_users)
 
 def get_users_viewable_reviews(user):
-    pass
+    followed_users = UserFollows.objects.filter(user=user).values_list('followed_user', flat=True)
+    return Review.objects.filter(user__in=followed_users)
 
 
 def feed(request):
@@ -34,7 +36,7 @@ def feed(request):
         key=lambda post: post.time_created,
         reverse=True
     )
-    return render(request, 'feed.html', context={'posts': posts})
+    return render(request, 'LitReview/feed.html', context={'posts': posts})
 
 class TicketDetailView(LoginRequiredMixin, DetailView):
     model = Ticket

@@ -22,7 +22,7 @@
             {% if user.is_authenticated %}
 {{ user.username }}
 <a href="{% url 'logout' %}">Deconnexion</a>
-<a href="{% url 'post' %}">Flux</a>
+<a href="{% url 'flux' %}">Flux</a>
 <a href="{% url 'post' %}">Posts</a>
 <a href="{% url 'abonnements' %}">Abonnements</a>
 {% else %}
