@@ -9,6 +9,8 @@ from django.views.generic.edit import FormView, CreateView, DeleteView
 from itertools import chain
 from django.db.models import CharField, Value
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 @login_required
 def index(request, valeur="bienvenue sur LitReview"):
@@ -17,13 +19,17 @@ def index(request, valeur="bienvenue sur LitReview"):
 
 def get_users_viewable_tickets(user):
     followed_users = UserFollows.objects.filter(user=user).values_list('followed_user', flat=True)
+    followed_users = list(followed_users)
+    followed_users.append(user.id)
     return Ticket.objects.filter(user__in=followed_users)
 
 def get_users_viewable_reviews(user):
     followed_users = UserFollows.objects.filter(user=user).values_list('followed_user', flat=True)
+    followed_users = list(followed_users)
+    followed_users.append(user.id)
     return Review.objects.filter(user__in=followed_users)
 
-
+@login_required
 def feed(request):
     reviews = get_users_viewable_reviews(request.user)
     reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
