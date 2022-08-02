@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+
+
+
+
+{% block content %}
+
+<div class="col-md-3" style="background-color: grey;" >
+
+</div>
+
+<div class="row col-md-6"  style=" padding-bottom: 830px; text-align: center;" >
+<br>
+<br>
+<h1>Supprimer post</h1>
+{% if ticket.title %}
+<h3>Supprimer: {{ ticket.title }}</h3>
+{% elif review.title %}
+<h3>Supprimer: {{ review.title }}</h3>
+{% endif %}
+<div class="form_group">
+    <form method="POST">
+
+        
+        <div style="align-items: center;">
+        <br>
+        {% csrf_token %}
+
+        <button class="btn btn-secondary"> Supprimer post </button>
+        <button class="btn btn-secondary" role="button" href="{% url 'Home' %}"> Retour </button>
+        </div>
+        
+    </form>
+ 
+
+</div>       
+
+        
+     
+        
+
+</div>
+
+
+<div class="col-md-3" style="background-color: grey;">
+
+</div>
+
+
+{% endblock %} 
