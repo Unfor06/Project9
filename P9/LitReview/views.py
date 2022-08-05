@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .form import TicketForm, ReviewForm, FollowForm
 from .models import Ticket, Review, UserFollows
 from django.views.generic.list import ListView
-from django.views.generic.edit import FormView, CreateView, DeleteView
+from django.views.generic.edit import FormView, CreateView, DeleteView, UpdateView
 from itertools import chain
 from django.db.models import CharField, Value
 from django.contrib.auth.decorators import login_required
@@ -92,7 +92,7 @@ def create_review(request):
         return render(request, 'LitReview/ticket_review.html', {"ticket_form":ticket_form, "review_form":review_form} )
 
 class PostListView(ListView):
-    template_name = 'LitReview/flux.html'
+    template_name = 'LitReview/post.html'
     model = Ticket
     paginate_by = 100
 
@@ -148,4 +148,25 @@ class FollowDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.user:
             return True
         return False
+class TicketDelete(LoginRequiredMixin, DeleteView):
+    model = Ticket
+    success_url = "/"
+    template_name = "LitReview/supp_post.html"
+
+class ModifTicket(LoginRequiredMixin, UpdateView):
+    model = Ticket
+    success_url = "//"
+    fields = ['title', 'description', 'image']
+    template_name = "LitReview/modif_ticket.html"
+
+class PostDelete(LoginRequiredMixin, DeleteView):
+    model = Ticket
+    success_url = "/post/"
+    template_name = "LitReview/delete_post.html"
+
+class ModifPost(LoginRequiredMixin, UpdateView):
+    model = Ticket
+    success_url = "/post/"
+    fields = ['title', 'description', 'image']
+    template_name = "LitReview/modif_ticket.html"
 

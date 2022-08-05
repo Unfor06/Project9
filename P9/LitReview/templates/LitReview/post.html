@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1> LitReview </h1>
+{{ valeur }}
+{% for post in object_list %}
+    {% if forloop.first %}
+    <div class="row">
+        {% endif %}
+    {% if post.content_type == 'TICKET' %}
+        {% include 'LitReview/post_snippet.html' %}
+        {% endif %}
+        <div class="col-md-12">
+    {% if request.user == post.user %}
+    <p>Vous avez publié une critique</p>
+    {% else %}
+    {{post.user}} a demandé une critique
+        {% endif %}
+        <h2>{{ post.title }}</h2>
+    <p>{{ post.user }}</p>
+    <p>{{ post.time_created }}</p>
+    <h3>{{ post.review.all.0.headline }}</h3>
+    <h3>{{ post.review.all.0.rating }}</h3>
+    <p>{{ post.review.all.0.body }}</p>
+        <img src="{{ post.image.url }}">
+    </div>
+    {% if forloop.counter|divisibleby:1 %}
+    </div>
+    <div class="row">
+     {% endif %}
+        {% if forloop.last %}
+    </div>
+    {% endif %}
+{% endfor %}
+
+
+{% endblock %}

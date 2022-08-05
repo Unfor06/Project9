@@ -1,0 +1,25 @@
+<img class="bd-placeholder-img card-img-bottom rounded" src="{{post.image.url}}" width="100%" height="340" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect></img>
+    <p class="card-text"><small class="text-muted">posté le : {{ post.time_created }}</small></p>
+
+    {% for review in post.reviews.all %}
+
+    {% include 'LitReview/review_snippet.html' %}
+    {% endfor %}
+    <ul class="nav nav-pills" style="margin-top: 10px;">
+
+        <li class="nav-item">
+          <a href="{% url 'modifier_post' post.id %}">Modifier le post</a>
+          <a href="{% url 'supprimer_post' post.id %}">Supprimer le post</a>
+
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#">Aimer</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#">Partager</a>
+        </li>
+
+    </ul>
+
+</div>

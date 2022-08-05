@@ -19,8 +19,9 @@
     <ul class="nav nav-pills" style="margin-top: 10px;">
         {% if post.reviews.count == 0 %}
         <li class="nav-item">
-          <a href=" {% url 'create_review' %}">Répondre à ce ticket</a>
-          <a href="{% url 'creat_ticket' %}">Modifier le ticket</a>
+          <a href=" {% url 'create_review'%}">Répondre à ce ticket</a>
+          <a href="{% url 'modifier_ticket' post.id %}">Modifier le ticket</a>
+          <a href="{% url 'supprimer_ticket' post.id %}">Supprimer le ticket</a>
 
         </li>
         {% endif %}

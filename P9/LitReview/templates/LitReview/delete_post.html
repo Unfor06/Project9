@@ -13,7 +13,7 @@
 <div class="row col-md-6"  style=" padding-bottom: 830px; text-align: center;" >
 <br>
 <br>
-<h1>Supprimer ticket</h1>
+<h1>Supprimer post</h1>
 {% if object.title %}
 <h3>Supprimer: {{ object.title }}</h3>
 {% elif review.title %}
@@ -22,23 +22,23 @@
 <div class="form_group">
     <form method="POST">
 
-        
+
         <div style="align-items: center;">
         <br>
         {% csrf_token %}
 
         <button class="btn btn-secondary"> Supprimer post </button>
-        <button class="btn btn-secondary" role="button" href="{% url 'flux' %}"> Retour </button>
+        <button class="btn btn-secondary" role="button" href="{% url 'post' %}"> Retour </button>
         </div>
-        
+
     </form>
- 
 
-</div>       
 
-        
-     
-        
+</div>
+
+
+
+
 
 </div>
 
@@ -48,4 +48,4 @@
 </div>
 
 
-{% endblock %} 
+{% endblock %}
