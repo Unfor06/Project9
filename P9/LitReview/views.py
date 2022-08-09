@@ -10,6 +10,7 @@ from itertools import chain
 from django.db.models import CharField, Value
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 User = get_user_model()
 
 @login_required
@@ -155,7 +156,7 @@ class TicketDelete(LoginRequiredMixin, DeleteView):
 
 class ModifTicket(LoginRequiredMixin, UpdateView):
     model = Ticket
-    success_url = "//"
+    success_url = "/"
     fields = ['title', 'description', 'image']
     template_name = "LitReview/modif_ticket.html"
 
